@@ -7,9 +7,10 @@ import java.util.concurrent.TimeoutException;
 
 public class MessageBus {
 
-    public static String EXCHANGE_NAME = "pair_programming_exchange";
+    private String uuid;
 
-    public MessageBus() {
+    public MessageBus(String uuid) {
+        this.uuid = uuid;
     }
 
     public void consumeMessage(MessageHandler handler) {
@@ -19,9 +20,9 @@ public class MessageBus {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.FANOUT);
+            channel.exchangeDeclare(uuid, BuiltinExchangeType.FANOUT);
             String queueName = channel.queueDeclare().getQueue();
-            channel.queueBind(queueName, EXCHANGE_NAME, "");
+            channel.queueBind(queueName, uuid, "");
 
             System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 

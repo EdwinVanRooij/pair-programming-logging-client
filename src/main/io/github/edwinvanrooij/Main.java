@@ -12,7 +12,9 @@ public class Main {
     public static void main(String[] args) {
         log("Started server.");
 
-        bus = new MessageBus();
+        String uuid = args[0];
+
+        bus = new MessageBus(uuid);
         bus.consumeMessage(new MessageHandler() {
             @Override
             public void handleMessage(String text) {
